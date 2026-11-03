@@ -1,29 +1,53 @@
 # Toffel Capital
 
-A research and portfolio analysis website that connects company research, benchmark comparisons, and investment decisions.
+Investment research, portfolio analysis, and a written record of the reasoning behind decisions.
 
-## The problem
+[Read the case study](CASE_STUDY.md) · [Architecture](#architecture) · [Publication scope](PUBLICATION.md)
 
-A portfolio view can show movement without explaining the decisions behind it. This project connects the analysis with a written record of the reasoning.
+## The question behind the chart
 
-## Implementation
+A portfolio chart shows movement. Understanding it also requires context: the comparison being made, the period being examined, and the reasoning behind a decision.
 
-The private application uses Next.js and TypeScript. Its source includes portfolio views, benchmark comparisons, company research pages, data processing scripts, and automated checks.
+Toffel Capital brings those questions into the same research workflow. Company analysis sits alongside portfolio views, benchmark comparisons, and a decision record, so the reader can move between what happened and why a position was considered.
 
-| Area | Purpose |
+## The research workflow
+
+| View | What the reader should understand |
 | --- | --- |
-| Portfolio views | Explore holdings and performance over a selected period |
-| Benchmark comparison | Compare portfolio behavior with a reference |
-| Company research | Keep the investment argument alongside supporting analysis |
-| Decision record | Explain the reasoning behind portfolio changes |
-| Data processing | Separate calculation work from presentation |
+| Company research | The investment argument and its supporting analysis |
+| Portfolio analysis | How the holdings behave over the selected period |
+| Benchmark comparison | The reference used to interpret that behavior |
+| Decision record | The reasoning behind a portfolio change |
+
+Selecting a period changes the question being asked. A comparison is useful only when its labels, calculations, and explanation refer to the same period. That relationship is a central review concern for this project.
+
+## Architecture
+
+The private application uses **Next.js and TypeScript**, with data processing kept separate from presentation.
+
+```mermaid
+flowchart TD
+    research["Company research"] --> interface["Research website"]
+    inputs["Analysis inputs"] --> processing["Data processing"]
+    processing --> interface
+    decisions["Decision record"] --> interface
+    interface --> reading["Portfolio and benchmark views"]
+```
+
+The diagram describes the responsibilities covered by the application. It is a reading guide, rather than a trace of a live account connection.
 
 ## Design decisions
 
-Keep calculations inspectable rather than burying them in display components. Explain the selected period so a reader can understand what a chart represents. Distinguish reported information from assumptions.
+**Keep reasoning close to the result.** A change in a chart needs an explanation that the reader can inspect. Research and decision records give the analysis somewhere to return to.
 
-## Public scope
+**Separate calculation from display.** Data preparation and analysis belong outside the components that present the result. That separation makes a calculation easier to review without having to interpret the entire interface.
 
-This repository is a qualitative case study. Application code, financial data, research documents, contact settings, screenshots, and prior development history are retained privately. There is no public performance claim or live account connection in this repository.
+**Make the comparison explicit.** A benchmark supplies context only when the reader understands what is being compared and over which period.
 
-AI assisted with implementation, debugging, tests, and documentation. The application has not been revalidated by publishing this writeup.
+The [case study](CASE_STUDY.md) examines these choices, the questions a reviewer should ask, and the limits of the public evidence.
+
+## Scope and contribution
+
+This publication documents the application and its design. Source code, financial data, research attachments, screenshots, and development history remain private. It provides no runnable application or public performance claim.
+
+AI assisted with implementation, debugging, tests, and documentation. This editorial review does not establish current runtime behavior. [Publication policy](PUBLICATION.md)
